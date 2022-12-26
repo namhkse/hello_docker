@@ -1,0 +1,20 @@
+data:
+  image: alpine
+  command: echo Data Container
+  volumes:
+    - /var/lib/redis
+
+cache:
+  image: redis
+  command: redis-server
+  volumes_from:
+    - data
+    
+web:
+  build: .
+  expose:
+    - 8080
+  ports:
+    - 8080:8080
+  links:
+    - cache:cache
